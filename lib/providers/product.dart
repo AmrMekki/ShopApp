@@ -12,11 +12,11 @@ class Product with ChangeNotifier {
   bool isFavorite;
 
   Product({
-    @required this.id,
-    @required this.title,
-    @required this.description,
-    @required this.price,
-    @required this.imageUrl,
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.price,
+    required this.imageUrl,
     this.isFavorite = false,
   });
 
@@ -32,7 +32,7 @@ class Product with ChangeNotifier {
     final url = 'https://flutter-update.firebaseio.com/products/$id.json';
     try {
       final response = await http.patch(
-        url,
+        Uri.parse(url),
         body: json.encode({
           'isFavorite': isFavorite,
         }),

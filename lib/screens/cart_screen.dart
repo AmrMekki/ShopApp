@@ -34,12 +34,15 @@ class CartScreen extends StatelessWidget {
                       '\$${cart.totalAmount.toStringAsFixed(2)}',
                       style: TextStyle(
                         color:
-                            Theme.of(context).primaryTextTheme.headline1.color,
+                            Theme.of(context).primaryTextTheme.headline1!.color,
                       ),
                     ),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
-                  OrderButton(cart: cart)
+                  OrderButton(
+                    cart: cart,
+                    key: ValueKey(key),
+                  )
                 ],
               ),
             ),
@@ -65,8 +68,8 @@ class CartScreen extends StatelessWidget {
 
 class OrderButton extends StatefulWidget {
   const OrderButton({
-    Key key,
-    @required this.cart,
+    required Key key,
+    required this.cart,
   }) : super(key: key);
 
   final Cart cart;

@@ -71,7 +71,7 @@ class Products with ChangeNotifier {
   Future<void> fetchAndSetProducts() async {
     const url = 'https://flutter-update.firebaseio.com/products.json';
     try {
-      final response = await http.get(url);
+      final response = await http.get(Uri.parse(url));
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       if (extractedData == null) {
         return;
@@ -98,7 +98,7 @@ class Products with ChangeNotifier {
     const url = 'https://flutter-update.firebaseio.com/products.json';
     try {
       final response = await http.post(
-        url,
+        Uri.parse(url),
         body: json.encode({
           'title': product.title,
           'description': product.description,
@@ -127,7 +127,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
     if (prodIndex >= 0) {
       final url = 'https://flutter-update.firebaseio.com/products/$id.json';
-      await http.patch(url,
+      await http.patch(Uri.parse(url),
           body: json.encode({
             'title': newProduct.title,
             'description': newProduct.description,
@@ -144,10 +144,10 @@ class Products with ChangeNotifier {
   Future<void> deleteProduct(String id) async {
     final url = 'https://flutter-update.firebaseio.com/products/$id.json';
     final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
-    var existingProduct = _items[existingProductIndex];
+    Product? existingProduct = _items[existingProductIndex];
     _items.removeAt(existingProductIndex);
     notifyListeners();
-    final response = await http.delete(url);
+    final response = await http.delete(Uri.parse(url));
     if (response.statusCode >= 400) {
       _items.insert(existingProductIndex, existingProduct);
       notifyListeners();
